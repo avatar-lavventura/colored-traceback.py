@@ -5,7 +5,6 @@ def add_hook(always=False, style='default', debug=False):
     isatty = getattr(sys.stderr, 'isatty', lambda: False)
     if always or isatty():
         try:
-            import pygments  # flake8:noqa
             colorizer = Colorizer(style, debug)
             sys.excepthook = colorizer.colorize_traceback
         except ImportError:
@@ -40,7 +39,8 @@ class Colorizer(object):
             fmt_options = {'bg': 'dark'}
         from pygments.formatters import get_formatter_by_name
         import pygments.util
-        fmt_alias = 'terminal256' if colors == 256 else 'terminal'
+        # fmt_alias = 'terminal256' if colors == 256 else 'terminal'
+        fmt_alias = "terminal"
         try:
             return get_formatter_by_name(fmt_alias, **fmt_options)
         except pygments.util.ClassNotFound as ex:
